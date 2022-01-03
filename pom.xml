@@ -111,6 +111,7 @@
         <module>broker</module>
         <module>tools</module>
         <module>store</module>
+        <module>dashboard</module>
         <module>namesrv</module>
         <module>remoting</module>
         <module>logappender</module>

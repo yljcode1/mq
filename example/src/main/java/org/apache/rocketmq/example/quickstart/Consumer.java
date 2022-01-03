@@ -35,6 +35,7 @@ public class Consumer {
         /*
          * Instantiate with specified consumer group name.
          */
+        // 实例化
         DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("please_rename_unique_group_name_4");
 
         /*
@@ -49,6 +50,7 @@ public class Consumer {
          * </pre>
          */
 
+        consumer.setNamesrvAddr("localhost:9876");
         /*
          * Specify where to start in case the specified consumer group is a brand new one.
          */

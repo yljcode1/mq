@@ -19,6 +19,7 @@ package org.apache.rocketmq.example.quickstart;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
 import org.apache.rocketmq.client.producer.SendResult;
+import org.apache.rocketmq.client.producer.SendStatus;
 import org.apache.rocketmq.common.message.Message;
 import org.apache.rocketmq.remoting.common.RemotingHelper;
 
@@ -31,6 +32,8 @@ public class Producer {
         /*
          * Instantiate with a producer group name.
          */
+
+        // 实例化一个生产者组
         DefaultMQProducer producer = new DefaultMQProducer("please_rename_unique_group_name");
 
         /*
@@ -44,22 +47,21 @@ public class Producer {
          * }
          * </pre>
          */
-
+        // 设置NameServer
+        producer.setNamesrvAddr("localhost:9876");
         /*
          * Launch the instance.
          */
+        // 启动producer
         producer.start();
 
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 100; i++) {
             try {
 
                 /*
                  * Create a message instance, specifying topic, tag and message body.
                  */
-                Message msg = new Message("TopicTest" /* Topic */,
-                    "TagA" /* Tag */,
-                    ("Hello RocketMQ " + i).getBytes(RemotingHelper.DEFAULT_CHARSET) /* Message body */
-                );
+                Message msg = new Message("TopicTest" /* Topic */, "TagA" /* Tag */, ("Hello RocketMQ " + i).getBytes(RemotingHelper.DEFAULT_CHARSET) /* Message body */);
 
                 /*
                  * Call send message to deliver message to one of brokers.
@@ -71,6 +73,10 @@ public class Producer {
                  * producer.sendOneway(msg);
                  * }
                  */
+
+                String msgId = sendResult.getMsgId();
+                SendStatus sendStatus = sendResult.getSendStatus();
+                int queueId = sendResult.getMessageQueue().getQueueId();
 
                 /*
                  * if you want to get the send result in a synchronize way, you can use this send method
