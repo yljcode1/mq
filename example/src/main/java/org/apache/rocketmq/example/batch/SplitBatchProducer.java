@@ -21,9 +21,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
 import org.apache.rocketmq.common.message.Message;
 
+/**
+ * 分割消息
+ */
 public class SplitBatchProducer {
 
     public static void main(String[] args) throws Exception {
@@ -49,7 +53,7 @@ public class SplitBatchProducer {
 }
 
 class ListSplitter implements Iterator<List<Message>> {
-    private int sizeLimit = 1000 * 1000;
+    private final int sizeLimit = 1000 * 1000;
     private final List<Message> messages;
     private int currIndex;
 

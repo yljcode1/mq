@@ -19,15 +19,21 @@ package org.apache.rocketmq.example.batch;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
 import org.apache.rocketmq.common.message.Message;
 
+/**
+ * 批量发送消息 要点就是将所有消息放到集合里面一起发送
+ */
 public class SimpleBatchProducer {
 
     public static void main(String[] args) throws Exception {
         DefaultMQProducer producer = new DefaultMQProducer("BatchProducerGroupName");
+        producer.setNamesrvAddr("localhost:9876");
         producer.start();
-
+        // 如果一次不超过1m，很容易批量发送
+        // 批量发送的消息应该：相同的topic，相同的 waitStoreMsgOk 不支持定时
         //If you just send messages of no more than 1MiB at a time, it is easy to use batch
         //Messages of the same batch should have: same topic, same waitStoreMsgOK and no schedule support
         String topic = "BatchTest";
@@ -37,5 +43,6 @@ public class SimpleBatchProducer {
         messages.add(new Message(topic, "Tag", "OrderID003", "Hello world 2".getBytes()));
 
         producer.send(messages);
+        producer.shutdown();
     }
 }
