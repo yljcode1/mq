@@ -37,7 +37,7 @@ public class Producer {
         try {
             DefaultMQProducer producer = new DefaultMQProducer("please_rename_unique_group_name");
             producer.start();
-
+            producer.setNamesrvAddr("locahost:9876");
             String[] tags = new String[]{"TagA", "TagB", "TagC", "TagD", "TagE"};
             for (int i = 0; i < 100; i++) {
                 int orderId = i % 10;
